@@ -16,8 +16,17 @@
   }
 }
 
+@font-face {
+  font-family: 'Ubuntu Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Ubuntu Mono'), local('UbuntuMono-Regular'), url(https://fonts.gstatic.com/s/ubuntumono/v14/KFOjCneDtsqEr0keZmGwgPxE.ttf) format('truetype');
+}
+
 body {
   color: rgb(var(--foreground-rgb));
+  /* font-family: 'Ubuntu Mono', monospace; */
   background: linear-gradient(
       to bottom,
       transparent,
@@ -25,3 +34,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.monospace {
+  font-family: 'Ubuntu Mono', monospace;
+  font-size: 16;
+}
+
