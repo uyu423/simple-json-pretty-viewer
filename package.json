@@ -1,10 +1,14 @@
 {
   "name": "simple-json-pretty-viewer",
   "version": "0.1.0",
+  "homepage": "https://json.yowu.dev",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "preexport": "next build",
+    "export": "next export",
+    "deploy": "next build && next export && npx gh-pages -d out",
     "start": "next start",
     "lint": "next lint"
   },

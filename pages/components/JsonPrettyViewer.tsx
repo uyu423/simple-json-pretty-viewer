@@ -30,9 +30,11 @@ const defaultJsonString = `{"name":"Yowu Yu","age":null,"email":"yowu.yu@example
 
 const localStorageKey = 'jsonString';
 
-function JsonPrettifier() {
+function JsonPrettyViewer() {
   const [jsonString, setJsonString] = useState<string>(
-    localStorage.getItem(localStorageKey) || defaultJsonString
+    typeof window !== 'undefined' && localStorage.getItem(localStorageKey)
+      ? localStorage.getItem(localStorageKey)!
+      : defaultJsonString
   );
   const [prettifiedJson, setPrettifiedJson] = useState<object | null>(() => {
     try {
@@ -55,7 +57,8 @@ function JsonPrettifier() {
       const json = JSON.parse(jsonString);
       setPrettifiedJson(json);
       setError(null);
-      localStorage.setItem(localStorageKey, jsonString);
+      typeof window !== 'undefined' &&
+        localStorage.setItem(localStorageKey, jsonString);
     } catch (error) {
       const errorMessage =
         error instanceof SyntaxError ? error.message : 'Invalid JSON';
@@ -65,18 +68,20 @@ function JsonPrettifier() {
   }
 
   useEffect(() => {
-    const jsonString = localStorage.getItem(localStorageKey);
-    if (jsonString) {
-      setJsonString(jsonString);
-      try {
-        const json = JSON.parse(jsonString);
-        setPrettifiedJson(json);
-        setError(null);
-      } catch (error) {
-        const errorMessage =
-          error instanceof SyntaxError ? error.message : 'Invalid JSON';
-        setPrettifiedJson(null);
-        setError(errorMessage);
+    if (typeof window !== 'undefined') {
+      const jsonString = localStorage.getItem(localStorageKey);
+      if (jsonString) {
+        setJsonString(jsonString);
+        try {
+          const json = JSON.parse(jsonString);
+          setPrettifiedJson(json);
+          setError(null);
+        } catch (error) {
+          const errorMessage =
+            error instanceof SyntaxError ? error.message : 'Invalid JSON';
+          setPrettifiedJson(null);
+          setError(errorMessage);
+        }
       }
     }
   }, []);
@@ -97,7 +102,6 @@ function JsonPrettifier() {
   function handleDetailToggle() {
     setDetail(!detail);
   }
-
   return (
     <div className="flex flow-grow">
       <div className="flex-1 p-2">
@@ -147,4 +151,4 @@ function JsonPrettifier() {
   );
 }
 
-export default JsonPrettifier;
+export default JsonPrettyViewer;
